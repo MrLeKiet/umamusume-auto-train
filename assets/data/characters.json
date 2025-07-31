@@ -50,5 +50,169 @@
             "Guts +10",
             "Stamina +10"
         ]
+    },
+    "King Halo": {
+        "The Outfit That Suits Me Most": [
+            "Speed +10\nGuts +10",
+            "Power +20"
+        ],
+        "Running Isn't Everything": [
+            "Stamina +20",
+            "Speed +10\nPower +10"
+        ],
+        "Manners Are Common Sense": [
+            "Guts +20\nStatus: practice_perfect",
+            "Stamina +10\nWisdom +10\nStatus: practice_perfect"
+        ],
+        "Movies Are Full of Learning Opportunities": [
+            "Speed +5\nGuts +5",
+            "Stamina +10"
+        ],
+        "The King Knows No Exhaustion": [
+            "Energy +5\nMood +1",
+            "Power +10"
+        ],
+        "First-Rate in Studies Too": [
+            "Wisdom +10\nSkill points +15",
+            "Outer Swell hint +1"
+        ],
+        "After-School Soda": [
+            "Guts +10",
+            "Speed +10"
+        ],
+        "Three Heads Are Better than One": [
+            "Wisdom +10",
+            "Stamina +10"
+        ],
+        "Sweet Tooth Temptation": [
+            "Energy +10\nSkill points +5",
+            "Energy +30\nSkill points +10",
+            "Energy +30\nSkill points +10\nSpeed -5\nPower +5\nStatus: slow_metabolism"
+        ],
+        "First-Rate Spot": [
+            "Guts +10",
+            "Speed +10"
+        ],
+        "First-Rate Harvest": [
+            "Power +5\nGuts +5",
+            "Speed +5\nStamina +5"
+        ],
+        "First-Rate Terms": [
+            "Power +10",
+            "Wisdom +10",
+            "Guts +10"
+        ],
+        "Crowds Are No Problem": [
+            "Speed +10",
+            "Power +10"
+        ],
+        "Breaking Curfew is Second-Rate": [
+            "Guts +5\nWisdom +5",
+            "Speed +5\nPower +5"
+        ]
+    },
+    "Nice Nature": {
+        "Nature and Her Tired Trainer": [
+            "Power +20",
+            "Stamina +20"
+        ],
+        "Bittersweet Sparkle": [
+            "Power +20",
+            "Speed +20"
+        ],
+        "Festive Colors": [
+            "Guts +20\nStatus: charming",
+            "Stamina +20\nStatus: charming"
+        ],
+        "Rainy-Day Fun": [
+            "Wisdom +10",
+            "Energy -10\nStamina +10\nGuts +10"
+        ],
+        "Not My Style": [
+            "Energy +5\nMood +1",
+            "Speed +5\nPower +5"
+        ],
+        "Whirlwind Advice": [
+            "Studious hint +1",
+            "Speed +5\nStamina +5\nPower +5"
+        ],
+        "A Little Can't Hurt": [
+            "Energy +10\nSkill points +5",
+            "Energy +30\nSkill points +10",
+            "Energy +30\nSkill points +10\nSpeed -5\nPower +5\nStatus: slow_metabolism"
+        ],
+        "A Phone Call from Mom": [
+            "Stamina +10",
+            "Speed +10"
+        ],
+        "Once in a While": [
+            "Stamina +5\nGuts +5",
+            "Stamina +5\nPower +5"
+        ],
+        "Bittersweet Twilight": [
+            "Speed +10",
+            "Guts +10",
+            "Wisdom +10"
+        ],
+        "Snapshot of Emotions": [
+            "Speed +10",
+            "Power +10"
+        ],
+        "Let's Watch the Fish": [
+            "Guts +10",
+            "Speed +10"
+        ]
+    },
+    "Matikanefukukitaru": {
+        "Room of the Chosen Ones": [
+            "Guts +20",
+            "Speed +20"
+        ],
+        "Better Fortune! Lucky Telephone": [
+            "Stamina +10\nWisdom +10",
+            "Power +20"
+        ],
+        "Under the Meteor Shower": [
+            "Speed +10\nPower +10\nStatus: charming",
+            "Stamina +10\nGuts +10\nStatus: charming"
+        ],
+        "Cursed Camera": [
+            "Wisdom +10",
+            "Skill points +30"
+        ],
+        "Manhattan's Dream": [
+            "Hesitant Front Runners hint +1",
+            "Stamina +10"
+        ],
+        "Pretty Gunslingers": [
+            "Skill points +15\nMood +1",
+            "Power +10"
+        ],
+        "Seven Gods of Fortune Fine Food Tour": [
+            "Energy +10\nSkill points +5",
+            "Energy +30\nSkill points +10",
+            "Energy +30\nSkill points +10\nSpeed -5\nPower +5\nStatus: slow_metabolism"
+        ],
+        "Fukukitaru's Protection against Misfortune": [
+            "Guts +10",
+            "Power +10"
+        ],
+        "Punch in a Pinch": [
+            "Speed +10",
+            "Stamina +5\nWisdom +5"
+        ],
+        "Fukukitaru's Unique Good-Luck Spell": [
+            "Speed +5\nGuts +5",
+            "Stamina +5\nPower +5",
+            "Wisdom +10"
+        ],
+        "Taking the Plunge": [
+            "Stamina +10",
+            "Speed +5\nWisdom +5"
+        ],
+        "Shrine Visit": [
+            "Power +5\nGuts +5",
+            "Speed +5\nStamina +5"
+        ]
     }
 }

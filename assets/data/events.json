@@ -35,5 +35,22 @@
         "Maximum Energy +12\nEnergy +40\nHeal all negative status\nEnergy -20\nMood -2\nStatus: practice_poor",
         "Energy +20\nMood +1\nStatus: charming\nEnergy -10\nMood -1\nStatus: practice_poor",
         "Energy +10"
+    ],
+    "Victory!": [
+        "Energy -15\n1 random stat +10\nSkill points +45\nHint: skill related to the race",
+        "Energy -5/-20\n1 random stat +10\nSkill points +45\nHint: skill related to the race"
+    ],
+    "Solid Showing": [
+        "Energy -20\n1 random stat +8\nSkill points +45\nHint: skill related to the race",
+        "Energy -10/-30\n1 random stat +8\nSkill points +45\nHint: skill related to the race"
+    ],
+    "Defeat": [
+        "Energy -25\n1 random stat +4\nSkill points +25\nHint: skill related to the race",
+        "Energy -15/-35\n1 random stat +4\nSkill points +25\nHint: skill related to the race"
+    ],
+    "Etsuko's Exhaustive Coverage": [
+        "Energy -25\nMood -1\n1 random stat +4\nSkill points +25\nEtsuko Otonashi bond -10",
+        "Energy -15\nMood +1\n1 random stat +4\nSkill points +25\nEtsuko Otonashi bond +15",
+        "Energy -20\n1 random stat +4\nSkill points +25\nEtsuko Otonashi bond +10"
     ]
 }

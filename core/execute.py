@@ -248,10 +248,23 @@ def career_lobby():
             for effect in choice_effects.split("\n"):
                 print(f"[DEBUG] Parsing effect: {effect}")  # Debug log
                 if "Energy" in effect:
-                    value = int(effect.split(" ")[1])
+                    value_str = effect.split(" ")[1]
+                    # Handle random values like "-5/-20" (either -5 OR -20)
+                    if '/' in value_str:
+                        # For random values, use average for scoring
+                        values = [int(v) for v in value_str.split('/')]
+                        value = sum(values) / len(values)  # Use average for random choices
+                    else:
+                        value = int(value_str)
                     effects["energy"] = value
                 elif "Skill points" in effect:
-                    value = int(effect.split(" ")[2])
+                    value_str = effect.split(" ")[2]
+                    # Handle random values (either/or)
+                    if '/' in value_str:
+                        values = [int(v) for v in value_str.split('/')]
+                        value = sum(values) / len(values)  # Use average for random choices
+                    else:
+                        value = int(value_str)
                     effects["skill_points"] = value
                 elif "Last trained stat" in effect:
                     value = int(effect.split(" ")[-1])
@@ -269,7 +282,13 @@ def career_lobby():
                     # Handle stat effects (Speed, Power, etc)
                     for stat in ["Speed", "Power", "Stamina", "Guts", "Wisdom"]:
                         if stat in effect:
-                            value = int(effect.split(" ")[1])
+                            value_str = effect.split(" ")[1]
+                            # Handle random values (either/or)
+                            if '/' in value_str:
+                                values = [int(v) for v in value_str.split('/')]
+                                value = sum(values) / len(values)  # Use average for random choices
+                            else:
+                                value = int(value_str)
                             effects[stat.lower()] = value
             
             # Calculate score for this choice
@@ -287,9 +306,13 @@ def career_lobby():
             try:
                 from utils.event_recognizer import click_choice, find_event_choice_button
                 # Check all button positions first for debugging
+                # Determine total number of choices
+                total_choices = len(choices)
+                print(f"[DEBUG] Event has {total_choices} choices")
+                
                 print("[DEBUG] Current button locations:")
-                for i in range(1, 4):
-                    pos = find_event_choice_button(i)
+                for i in range(1, total_choices + 1):
+                    pos = find_event_choice_button(i, total_choices)
                     if pos:
                         print(f"[DEBUG] Choice {i} button found at: ({pos[0]}, {pos[1]})")
                     else:
@@ -297,10 +320,20 @@ def career_lobby():
                 
                 # Do the scan first to find our target button
                 print(f"[DEBUG] Attempting to click choice {best_choice_num}...")
-                time.sleep(1)  # Give UI time to stabilize
-                if click_choice(best_choice_num, dry_run=True):  # First scan
-                    time.sleep(0.5)  # Small delay between scan and click
-                    click_choice(best_choice_num)  # Then actually click
+                # Get the button position from our previous scan
+                pos = None
+                for i in range(1, total_choices + 1):
+                    if i == best_choice_num:
+                        pos = find_event_choice_button(i, total_choices)
+                        break
+                
+                if pos:
+                    x, y = pos
+                    # Move mouse up 50px first to avoid UI elements
+                    pyautogui.moveTo(x, y - 50, duration=0.2)
+                    pyautogui.click(x, y)
+                    print(f"[DEBUG] Clicked choice {best_choice_num} at ({x}, {y})")
+                    time.sleep(0.5)  # Small delay after click
                     time.sleep(0.5)  # Small delay after click
                 else:
                     print(f"[WARNING] Could not find button for choice {best_choice_num}")

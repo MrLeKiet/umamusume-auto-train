@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from typing import Dict, Tuple, Optional
 from core.ocr import extract_text
 from utils.screenshot import enhanced_screenshot
@@ -51,6 +52,26 @@ def load_character_events() -> Dict:
 
 # Support events have been removed - all events are in characters.json
 
+def normalize_event_text(text: str) -> str:
+    """Normalize event text to handle OCR variations"""
+    # Remove extra whitespace
+    text = ' '.join(text.split())
+    
+    # Common text variations to standardize
+    variations = {
+        r"At Summer \(Year (\d+)\) Camp": r"At Summer Camp (Year \1)",  # Fix year position
+        r"Summer Camp \(Year (\d+)\)": r"At Summer Camp (Year \1)",     # Add missing "At"
+        r"\(Year (\d+)\) Summer Camp": r"At Summer Camp (Year \1)"      # Another variation
+    }
+    
+    # Apply all variations
+    for pattern, replacement in variations.items():
+        if re.search(pattern, text):
+            text = re.sub(pattern, replacement, text)
+            break
+            
+    return text
+
 def get_event_text() -> str:
     """Capture and extract text from the event screen"""
     event_img = enhanced_screenshot(EVENT_TEXT_REGION)
@@ -68,8 +89,35 @@ def get_event_text() -> str:
         print("[ERROR] Please ensure the game window is in focus and try again")
         return ""
         
-    # Clean up the text
-    cleaned_text = ' '.join(text.split())  # Remove extra whitespace
+    # Clean up and normalize the text
+    cleaned_text = normalize_event_text(text)
+    
+    # Common patterns that indicate an exclamation mark should follow
+    exclamation_patterns = [
+        # Victory patterns
+        r"Victory$",
+        # Action patterns
+        r"(Training|Running|Racing|Dash)$",
+        # Emotional patterns
+        r"(Fun|Ready|Go|Afraid|Up|Win)$",
+        # Question + Exclamation
+        r"\?$",
+        # Star patterns (☆)
+        r"☆$",
+        # Common phrases
+        r"(Let's|Good Job|Get Well Soon)$"
+    ]
+    
+    # Check if text ends with a potential OCR mistake
+    last_char = cleaned_text[-1] if cleaned_text else ''
+    if last_char in ['l', '|', '1', 'I']:
+        # Check if the text (without the last character) matches any pattern
+        text_without_last = cleaned_text[:-1]
+        for pattern in exclamation_patterns:
+            if re.search(pattern, text_without_last, re.IGNORECASE):
+                cleaned_text = text_without_last + '!'
+                break
+    
     return cleaned_text
 
 def load_support_events() -> Dict:
