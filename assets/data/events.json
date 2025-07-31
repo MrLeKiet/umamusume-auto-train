@@ -1,0 +1,39 @@
+{
+    "Extra Training": [
+        "Energy -5\nLast trained stat +5\nHeal negative status\nYayoi Akikawa bond +5",
+        "Energy +5"
+    ],
+    "Get Well Soon!": [
+        "Mood -1\nLast trained stat -5\nStatus: practice_poor",
+        "Mood -1\nLast trained stat -10\nStatus: practice_poor\nStatus: practice_perfect"
+    ],
+    "Don't Overdo It!": [
+        "Energy +10\nMood -2\nLast trained stat -10\n2 random stats -10\nStatus: practice_poor",
+        "Mood -3\nLast trained stat -10\n2 random stats -10\nStatus: practice_poor\nEnergy +10\nStatus: practice_perfect"
+    ],
+    "At Summer Camp (Year 2)": [
+        "Power +10",
+        "Guts +10"
+    ],
+    "Dance Lesson": [
+        "Speed +10",
+        "Guts +10"
+    ],
+    "New Year's Resolutions": [
+        "Speed +10",
+        "Energy +20",
+        "Skill points +20"
+    ],
+    "New Year's Shrine Visit": [
+        "Energy +30",
+        "All stats +5",
+        "Skill points +35"
+    ],
+    "Just an Acupuncturist, No Worries! ☆": [
+        "All stats +20\nMood -2\nAll stats -15\nStatus: night_owl",
+        "Corner Recovery ○\nStraightaway Recovery\nEnergy -20\nMood -2",
+        "Maximum Energy +12\nEnergy +40\nHeal all negative status\nEnergy -20\nMood -2\nStatus: practice_poor",
+        "Energy +20\nMood +1\nStatus: charming\nEnergy -10\nMood -1\nStatus: practice_poor",
+        "Energy +10"
+    ]
+}

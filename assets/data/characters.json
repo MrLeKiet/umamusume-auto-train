@@ -1,0 +1,54 @@
+{
+    "Haru Urara": {
+        "The Racewear I Love!": [
+            "Speed +20",
+            "Power +20"
+        ],
+        "Pair Interview!": [
+            "Power +20",
+            "Stamina +20"
+        ],
+        "Tug of War Tournament!": [
+            "Guts +20\nStatus: hot_topic",
+            "Speed +20\nStatus: hot_topic"
+        ],
+        "Arm-Wrestling Contest": [
+            "Wisdom +10",
+            "Power +10"
+        ],
+        "Looking for Something Important": [
+            "Energy -10\nGuts +20",
+            "Stamina +10"
+        ],
+        "Sand Training!": [
+            "Guts +10\nSkill points +15",
+            "Energy +15"
+        ],
+        "The Final Boss... Spe!": [
+            "Energy +10\nSkill points +5",
+            "Energy +30\nSkill points +10",
+            "Energy +30\nSkill points +10\nSpeed -5\nPower +5\nStatus: slow_metabolism"
+        ],
+        "A Little Detour!": [
+            "Skill points +30",
+            "Stamina +10"
+        ],
+        "Parks Are Fun!": [
+            "Speed +10",
+            "Power +10"
+        ],
+        "Secret Day Off Plan!": [
+            "Speed +10",
+            "Power +10",
+            "Wisdom +10"
+        ],
+        "So Cool!": [
+            "Skill points +30",
+            "Wisdom +10"
+        ],
+        "Forgot to Eat!": [
+            "Guts +10",
+            "Stamina +10"
+        ]
+    }
+}

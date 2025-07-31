@@ -1,0 +1,71 @@
+{
+    "Matikanefukukitaru (SR)": {
+        "Guidance and Friends": [
+            "Skill points +45\nMatikanefukitaru bond +5",
+            "Energy +10\nMood +1\nRight-Handed ○ hint +3\nMatikanefukitaru bond +5",
+            "Energy -20\nRight-Handed ○ hint +1\nMatikanefukukitaru bond +5"
+        ],
+        "Maximum Spirituality": [
+            "Wisdom +5\nSkill points +15\nMatikanefukukitaru bond +5",
+            "Energy -10\nSpeed +5\nStamina +5\nPower +5\nMatikanefukukitaru bond +5"
+        ],
+        "When Piety and Kindness Intersect": [
+            "Skill points +30\nMatikanefukukitaru bond +5",
+            "Energy +20\nMatikanefukukitaru bond +5"
+        ]
+    },
+    "Fine Motion (SSR)": {
+        "Lovely Training Weather ♪": [
+            "Wisdom +5\nSkill points +20\nFine Motion bond +5",
+            "Speed +10\nStamina +5",
+            "Status: practice_perfect\nFine Motion bond +5"
+        ],
+        "Wonderful New Shoes": [
+            "Speed +5\nSkill points +10\nFine Motion bond +5",
+            "Energy -10\nStamina +5\nSkill points +20\nFine Motion bond +5"
+        ],
+        "Reminiscent Clover": [
+            "Corner Adept ○ hint +1\nFine Motion bond +5",
+            "Guts +15\nFine Motion bond +5"
+        ]
+    },
+    "Sweep Tosho (SR)": {
+        "Some Very Green Friends": [
+            "Speed +5\nSkill points +10\nLucky Seven hint +1\nSweep Tosho bond +5",
+            "Mood -1\nMaverick ○ hint +5"
+        ],
+        "Premeditated Mischief": [
+            "Speed +10\nSkill points +20\nLevelheaded hint +1\nSweep Tosho bond +5",
+            "Mood -1\nLone Wolf hint +1"
+        ],
+        "Miracle ☆ Escape!": [
+            "Energy +10\nSpeed +5\nSweep Tosho bond +5",
+            "Energy -10\nSpeed +20\nSweep Tosho bond +5"
+        ],
+        "Wonderful ☆ Mistake!": [
+            "Energy -15\nSkill points +40",
+            "Energy -20\nSkill points +40\nSweep Tosho bond +5",
+            "Status: charming\nSweep Tosho bond +5"
+        ]
+    },
+    "Manhattan Cafe (SR)": {
+        "Solo Nighttime Run": [
+            "Stamina +10\nManhattan Cafe bond +5",
+            "Energy +10\nStamina +5\nManhattan Cafe bond +5"
+        ],
+        "A Taste of Silence": [
+            "Stamina +5\nSkill points +15\nManhattan Cafe bond +5",
+            "Non-Standard Distance ○ hint +1\nManhattan Cafe bond +5"
+        ]
+    },
+    "Super Creek (SSR)": {
+        "Leave it to Me to Help Out! ♪": [
+            "Energy +15\nSuper Creek bond +5",
+            "Stamina +10\nSuper Creek bond +5"
+        ],
+        "Leave it to Me to Be Considerate! ♪": [
+            "Deep Breaths hint +1\nSuper Creek bond +5",
+            "Energy +10\nStamina +5\nSuper Creek bond +5"
+        ]
+    }
+}

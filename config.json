@@ -1,9 +1,10 @@
 {
+  "character_name": "Haru Urara",
   "priority_stat": ["spd", "sta", "wit", "pwr", "guts"],
-  "minimum_mood": "GREAT",
+  "minimum_mood": "NORMAL",
   "maximum_failure": 10,
-  "prioritize_g1_race": false,
-  "skill_point_cap": 700,
+  "prioritize_g1_race": true,
+  "skill_point_cap": 400,
   "enable_skill_point_check": true,
   "min_support": 3,
   "stat_caps": {

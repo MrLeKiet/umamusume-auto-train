@@ -55,51 +55,13 @@ def check_training():
       pyautogui.mouseDown()
       support_counts = check_support_card()
       total_support = sum(support_counts.values())
-      
-      # Retry failure detection if confidence is low
-      max_retries = 3
-      best_confidence = 0.0
-      best_failure_result = None
-      
-      for attempt in range(max_retries):
-        failure_result = check_failure()
-        
-        # Handle new tuple format (rate, confidence) or old format (rate)
-        if isinstance(failure_result, tuple):
-          failure_chance, confidence = failure_result
-        else:
-          failure_chance = failure_result
-          confidence = 0.0  # Default confidence for old format
-        
-        # Keep the best result (highest confidence)
-        if confidence > best_confidence:
-          best_confidence = confidence
-          best_failure_result = failure_result
-        
-        # If we have good confidence, no need to retry
-        if confidence >= 0.5:
-          break
-        
-        # Wait a bit before retry
-        if attempt < max_retries - 1:
-          time.sleep(0.2)
-      
-      # Use the best result we found
-      if isinstance(best_failure_result, tuple):
-        failure_chance, confidence = best_failure_result
-      else:
-        failure_chance = best_failure_result
-        confidence = best_confidence
-      
+      failure_chance = check_failure()
       results[key] = {
         "support": support_counts,
         "total_support": total_support,
-        "failure": failure_chance,
-        "confidence": confidence
+        "failure": failure_chance
       }
-      
-      retry_info = f" (retried {max_retries} times)" if best_confidence < 0.5 else ""
-      print(f"[{key.upper()}] → {support_counts}, Fail: {failure_chance}% - Confident: {confidence:.2f}{retry_info}")
+      print(f"[{key.upper()}] → {support_counts}, Fail: {failure_chance}%")
       time.sleep(0.1)
   
   pyautogui.mouseUp()
@@ -241,19 +203,121 @@ def after_race():
   pyautogui.click()
   click(img="assets/buttons/next2_btn.png", minSearch=10)
 
+import json
+import os
+from utils.event_helper import get_event_text, extract_event_info
+from utils.event_recognizer import is_event_screen
+from utils.choice_analyzer import calculate_choice_score
+import pyautogui
+
 def career_lobby():
   # Program start
+  last_state = None  # Track last state to avoid spam
+  last_message_time = 0  # Track when we last printed a message
+  message_cooldown = 5  # Only print same message every 5 seconds
+  
   while True:
+    current_time = time.time()
     # First check, event
-    if click(img="assets/icons/event_choice_1.png", minSearch=0.2, text="[INFO] Event found, automatically select top choice."):
-      continue
+    is_event, button_pos = is_event_screen()
+    if is_event and button_pos:
+        # Give the UI time to stabilize after detection
+        time.sleep(1)
+        
+        print("[INFO] Event detected, analyzing choices...")
+        
+        # Get event text and choices
+        event_text, choices = extract_event_info()
+        if not event_text:
+            print("[WARNING] Could not read event text")
+            return
+            
+        print(f"[INFO] Detected event: {event_text}")
+        
+        if not choices:
+            print("[WARNING] Unknown event detected. Stopping automation.")
+            print(f"[INFO] Event text: {event_text}")
+            print("[INFO] Please add this event to the database if needed.")
+            return
+            
+        # Parse choice effects and calculate scores
+        choice_scores = []
+        for idx, choice_effects in enumerate(choices, 1):
+            # Parse the effects string into individual effects
+            effects = {}
+            for effect in choice_effects.split("\n"):
+                print(f"[DEBUG] Parsing effect: {effect}")  # Debug log
+                if "Energy" in effect:
+                    value = int(effect.split(" ")[1])
+                    effects["energy"] = value
+                elif "Skill points" in effect:
+                    value = int(effect.split(" ")[2])
+                    effects["skill_points"] = value
+                elif "Last trained stat" in effect:
+                    value = int(effect.split(" ")[-1])
+                    effects["last_trained_stat"] = value
+                elif "Heal negative status" in effect:
+                    effects["status"] = "heal_negative"
+                    effects["heal_status"] = 1  # Flag for healing status
+                elif "bond" in effect.lower():
+                    value = int(effect.split(" ")[-1])
+                    effects["bond"] = value
+                elif "Status:" in effect:
+                    status = effect.split(": ")[1]
+                    effects["status"] = status
+                else:
+                    # Handle stat effects (Speed, Power, etc)
+                    for stat in ["Speed", "Power", "Stamina", "Guts", "Wisdom"]:
+                        if stat in effect:
+                            value = int(effect.split(" ")[1])
+                            effects[stat.lower()] = value
+            
+            # Calculate score for this choice
+            score = calculate_choice_score(effects)
+            choice_scores.append((idx, score))
+                        
+                
+        # Find best choice
+        if choice_scores:
+            best_choice = max(choice_scores, key=lambda x: x[1])
+            best_choice_num = best_choice[0]
+            print(f"[INFO] Best choice: {best_choice_num} (Score: {best_choice[1]:.1f})")
+            
+            # Try to click the best choice
+            try:
+                from utils.event_recognizer import click_choice, find_event_choice_button
+                # Check all button positions first for debugging
+                print("[DEBUG] Current button locations:")
+                for i in range(1, 4):
+                    pos = find_event_choice_button(i)
+                    if pos:
+                        print(f"[DEBUG] Choice {i} button found at: ({pos[0]}, {pos[1]})")
+                    else:
+                        print(f"[DEBUG] Choice {i} button not found")
+                
+                # Do the scan first to find our target button
+                print(f"[DEBUG] Attempting to click choice {best_choice_num}...")
+                time.sleep(1)  # Give UI time to stabilize
+                if click_choice(best_choice_num, dry_run=True):  # First scan
+                    time.sleep(0.5)  # Small delay between scan and click
+                    click_choice(best_choice_num)  # Then actually click
+                    time.sleep(0.5)  # Small delay after click
+                else:
+                    print(f"[WARNING] Could not find button for choice {best_choice_num}")
+            except Exception as e:
+                print(f"[ERROR] Failed to click choice: {str(e)}")
+        else:
+            print("[WARNING] Unknown event detected. Stopping automation.")
+            print("[INFO] Event text:", event_text)
+            print("[INFO] Please add this event to the database if needed.")
+            return  # Exit the function to stop automation
 
     # Second check, inspiration
     if click(img="assets/buttons/inspiration_btn.png", minSearch=0.2, text="[INFO] Inspiration found."):
-      continue
+        continue
 
     if click(img="assets/buttons/next_btn.png", minSearch=0.2):
-      continue
+        continue
 
     if click(img="assets/buttons/cancel_btn.png", minSearch=0.2):
       continue
@@ -262,7 +326,11 @@ def career_lobby():
     tazuna_hint = pyautogui.locateCenterOnScreen("assets/ui/tazuna_hint.png", confidence=0.8, minSearchTime=0.2)
 
     if tazuna_hint is None:
-      print("[INFO] Should be in career lobby.")
+      current_state = "waiting_for_lobby"
+      if last_state != current_state or (current_time - last_message_time) >= message_cooldown:
+        print("[INFO] Waiting for career lobby...")
+        last_state = current_state
+        last_message_time = current_time
       continue
 
     time.sleep(0.5)
@@ -285,29 +353,7 @@ def career_lobby():
     print("\n=======================================================================================\n")
     print(f"Year: {year}")
     print(f"Mood: {mood}")
-    print(f"Turn: {turn}")
-    print(f"Goal: {criteria}")
-    
-    # Check if goals criteria are NOT met AND it is not Pre-Debut AND turn is less than 10
-    # Prioritize racing when criteria are not met to help achieve goals
-    criteria_met = (criteria.split(" ")[0] == "criteria" or "criteria met" in criteria.lower() or "goal achieved" in criteria.lower())
-    year_parts = year.split(" ")
-    is_junior_year = year_parts[0] == "Junior"
-    if not criteria_met and not is_junior_year and turn < 10:
-      print(f"Goal Status: Criteria not met - Prioritizing racing to meet goals")
-      race_found = do_race()
-      if race_found:
-        print("Race Result: Found Race")
-        continue
-      else:
-        print("Race Result: No Race Found")
-        # If there is no race matching to aptitude, go back and do training instead
-        click(img="assets/buttons/back_btn.png", text="[INFO] Race not found. Proceeding to training.")
-        time.sleep(0.5)
-    else:
-      print("Goal Status: Criteria met or conditions not suitable for racing")
-    
-    print("")
+    print(f"Turn: {turn}\n")
 
     # URA SCENARIO
     if year == "Finale Season" and turn == "Race Day":
@@ -348,18 +394,23 @@ def career_lobby():
       do_recreation()
       continue
 
-
+    # Check if goals is not met criteria AND it is not Pre-Debut AND turn is less than 10 AND Goal is already achieved
+    if criteria.split(" ")[0] != "criteria" and year != "Junior Year Pre-Debut" and turn < 10 and criteria != "Goal Achievedl":
+      race_found = do_race()
+      if race_found:
+        continue
+      else:
+        # If there is no race matching to aptitude, go back and do training instead
+        click(img="assets/buttons/back_btn.png", text="[INFO] Race not found. Proceeding to training.")
+        time.sleep(0.5)
 
     year_parts = year.split(" ")
     # If Prioritize G1 Race is true, check G1 race every turn
     if PRIORITIZE_G1_RACE and year_parts[0] != "Junior" and is_racing_available(year):
-      print("G1 Race Check: Looking for G1 race...")
       g1_race_found = do_race(PRIORITIZE_G1_RACE)
       if g1_race_found:
-        print("G1 Race Result: Found G1 Race")
         continue
       else:
-        print("G1 Race Result: No G1 Race Found")
         # If there is no G1 race, go back and do training
         click(img="assets/buttons/back_btn.png", text="[INFO] G1 race not found. Proceeding to training.")
         time.sleep(0.5)
@@ -375,33 +426,6 @@ def career_lobby():
     
     best_training = do_something(results_training)
     if best_training == "PRIORITIZE_RACE":
-      # Check if it's Junior Year - if so, don't prioritize racing
-      year_parts = year.split(" ")
-      if year_parts[0] == "Junior":
-        print("[INFO] Junior Year detected. Skipping race prioritization and proceeding to training.")
-        # Re-evaluate training without race prioritization
-        best_training = do_something_fallback(results_training)
-        if best_training:
-          go_to_training()
-          time.sleep(0.5)
-          do_train(best_training)
-        else:
-          do_rest()
-        continue
-      
-      # Check if it's Finale Season - no races available, fall back to training without min_support
-      if year == "Finale Season":
-        print("[INFO] Finale Season detected. No races available. Proceeding to training without minimum support requirements.")
-        # Re-evaluate training without race prioritization
-        best_training = do_something_fallback(results_training)
-        if best_training:
-          go_to_training()
-          time.sleep(0.5)
-          do_train(best_training)
-        else:
-          do_rest()
-        continue
-      
       print("[INFO] Prioritizing race due to insufficient support cards.")
       
       # Check if all training options are unsafe before attempting race
@@ -416,13 +440,10 @@ def career_lobby():
         do_rest()
         continue
       
-      print("Training Race Check: Looking for race due to insufficient support cards...")
       race_found = do_race()
       if race_found:
-        print("Training Race Result: Found Race")
         continue
       else:
-        print("Training Race Result: No Race Found")
         # If no race found, go back to training logic
         print("[INFO] No race found. Returning to training logic.")
         click(img="assets/buttons/back_btn.png", text="[INFO] Race not found. Proceeding to training.")
